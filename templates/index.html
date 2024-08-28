@@ -1,0 +1,551 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+    {% if request.LANGUAGE_CODE == 'uz' %}
+        Asosiy sahifa
+    {% elif request.LANGUAGE_CODE == 'en' %}
+        Main Page
+    {% elif request.LANGUAGE_CODE == 'ru' %}
+        Главная страница
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <main>
+    <!-- Trending Area Start -->
+    <div class="trending-area fix">
+        <div class="container">
+            <div class="trending-main">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="trending-tittle">
+                            <strong>
+                                {% if request.LANGUAGE_CODE == 'uz' %}
+                                    Qaynoq yangiliklar
+                                {% elif request.LANGUAGE_CODE == 'en' %}
+                                    Hot News
+                                {% elif request.LANGUAGE_CODE == 'ru' %}
+                                    Горячие новости
+                                {% endif %}
+                            </strong>
+                            <div class="trending-animated">
+                               <ul id="js-news" class="js-hidden">
+                                    {% for post in latest_posts %}
+                                        {% if post %}
+                                            <li class="news-item">
+                                                {% if LANGUAGE_CODE == 'uz' %}
+                                                    {{ post.title_uz }}
+                                                {% elif LANGUAGE_CODE == 'ru' %}
+                                                    {{ post.title_ru }}
+                                                {% elif LANGUAGE_CODE == 'en' %}
+                                                    {{ post.title_en }}
+                                                {% else %}
+                                                    {{ post.title_uz }}  <!-- Default to Uzbek if the language is not recognized -->
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Trending Top -->
+                         <div class="trending-top mb-30">
+                                <div class="trend-top-img">
+                                    {% if latest_post_with_image %}
+                                        {% if latest_post_with_image.image %}
+                                            <img src="{{ latest_post_with_image.image.url }}" alt="{% if request.LANGUAGE_CODE == 'uz' %}So'nggi xabarlar{% elif request.LANGUAGE_CODE == 'en' %}Latest News{% elif request.LANGUAGE_CODE == 'ru' %}Последние новости{% endif %}">
+                                        {% else %}
+                                            <p>No image available</p>
+                                        {% endif %}
+
+                                        <div class="trend-top-cap">
+                                            <span>
+                                                {% if request.LANGUAGE_CODE == 'uz' %}
+                                                    {{ latest_post_with_image.category.name_uz }}
+                                                {% elif request.LANGUAGE_CODE == 'en' %}
+                                                    {{ latest_post_with_image.category.name_en }}
+                                                {% elif request.LANGUAGE_CODE == 'ru' %}
+                                                    {{ latest_post_with_image.category.name_ru }}
+                                                {% else %}
+                                                    {{ latest_post_with_image.category.name_uz }}  <!-- Default to Uzbek -->
+                                                {% endif %}
+                                            </span>
+                                            <h2>
+                                                <a href="{% url 'post_detail' latest_post_with_image.slug %}">
+                                                    {% if request.LANGUAGE_CODE == 'uz' %}
+                                                        {{ latest_post_with_image.title_uz }}
+                                                    {% elif request.LANGUAGE_CODE == 'en' %}
+                                                        {{ latest_post_with_image.title_en }}
+                                                    {% elif request.LANGUAGE_CODE == 'ru' %}
+                                                        {{ latest_post_with_image.title_ru }}
+                                                    {% else %}
+                                                        {{ latest_post_with_image.title_uz }}  <!-- Default to Uzbek -->
+                                                    {% endif %}
+                                                </a>
+                                            </h2>
+                                        </div>
+                                    {% else %}
+                                        <p>No post available</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+
+
+                        <!-- Trending Bottom -->
+                        <div class="trending-bottom">
+                            <div class="row">
+                                {% for all_post in all_posts %}
+                                    <div class="col-lg-4">
+                                        <div class="single-bottom mb-35">
+                                            <div class="trend-bottom-img mb-30">
+                                                {% if all_post.image %}
+                                                    <img src="{{ all_post.image.url }}" alt="{{ all_post.title }}" width="240" height="160">
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="trend-bottom-cap">
+                                                <span class="color1">
+                                                    {% if language_code == 'uz' %}
+                                                        {{ all_post.category.name_uz }}
+                                                    {% elif language_code == 'en' %}
+                                                        {{ all_post.category.name_en }}
+                                                    {% elif language_code == 'ru' %}
+                                                        {{ all_post.category.name_ru }}
+                                                    {% else %}
+                                                        {{ all_post.category.name_uz }}  <!-- Default to Uzbek -->
+                                                    {% endif %}
+                                                </span>
+                                                <h4>
+                                                    <a href="{% url 'post_detail' all_post.slug %}">
+                                                        {% if language_code == 'uz' %}
+                                                            {{ all_post.title_uz }}
+                                                        {% elif language_code == 'en' %}
+                                                            {{ all_post.title_en }}
+                                                        {% elif language_code == 'ru' %}
+                                                            {{ all_post.title_ru }}
+                                                        {% else %}
+                                                            {{ all_post.title_uz }}  <!-- Default to Uzbek -->
+                                                        {% endif %}
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Riht content -->
+                    <div class="col-lg-4">
+                        <!-- Jamiyat Post -->
+                        <div class="trand-right-single d-flex">
+                            <div class="trand-right-img">
+                                {% if latest_jamiyat_post_uz.image %}
+                                    <img src="{{ latest_jamiyat_post_uz.image.url }}" alt="{{ latest_jamiyat_post_uz.title_uz }}" width="120" height="100">
+                                {% endif %}
+                            </div>
+                            <div class="trand-right-cap">
+                                <span class="color3">
+                                    {% if language_code == 'uz' %}
+                                        {{ latest_jamiyat_post_uz.category.name_uz }}
+                                    {% elif language_code == 'en' %}
+                                        {{ latest_jamiyat_post_en.category.name_en }}
+                                    {% elif language_code == 'ru' %}
+                                        {{ latest_jamiyat_post_ru.category.name_ru }}
+                                    {% else %}
+                                        {{ latest_jamiyat_post_uz.category.name_uz }}  <!-- Default to Uzbek -->
+                                    {% endif %}
+                                </span>
+                                <h4>
+                                    <a href="{% url 'post_detail' latest_jamiyat_post_uz.slug %}">
+                                        {% if language_code == 'uz' %}
+                                            {{ latest_jamiyat_post_uz.title_uz }}
+                                        {% elif language_code == 'en' %}
+                                            {{ latest_jamiyat_post_en.title_en }}
+                                        {% elif language_code == 'ru' %}
+                                            {{ latest_jamiyat_post_ru.title_ru }}
+                                        {% else %}
+                                            {{ latest_jamiyat_post_uz.title_uz }}  <!-- Default to Uzbek -->
+                                        {% endif %}
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Sport Post -->
+                        <div class="trand-right-single d-flex">
+                            <div class="trand-right-img">
+                                {% if latest_sport_post_uz.image %}
+                                    <img src="{{ latest_sport_post_uz.image.url }}" alt="{{ latest_sport_post_uz.title_uz }}" width="120" height="100">
+                                {% endif %}
+                            </div>
+                            <div class="trand-right-cap">
+                                <span class="color1">
+                                    {% if language_code == 'uz' %}
+                                        {{ latest_sport_post_uz.category.name_uz }}
+                                    {% elif language_code == 'en' %}
+                                        {{ latest_sport_post_en.category.name_en }}
+                                    {% elif language_code == 'ru' %}
+                                        {{ latest_sport_post_ru.category.name_ru }}
+                                    {% else %}
+                                        {{ latest_sport_post_uz.category.name_uz }}  <!-- Default to Uzbek -->
+                                    {% endif %}
+                                </span>
+                                <h4>
+                                    <a href="{% url 'post_detail' latest_sport_post_uz.slug %}">
+                                        {% if language_code == 'uz' %}
+                                            {{ latest_sport_post_uz.title_uz }}
+                                        {% elif language_code == 'en' %}
+                                            {{ latest_sport_post_en.title_en }}
+                                        {% elif language_code == 'ru' %}
+                                            {{ latest_sport_post_ru.title_ru }}
+                                        {% else %}
+                                            {{ latest_sport_post_uz.title_uz }}  <!-- Default to Uzbek -->
+                                        {% endif %}
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Jahon Post -->
+                        <div class="trand-right-single d-flex">
+                            <div class="trand-right-img">
+                                {% if latest_jahon_post_uz.image %}
+                                    <img src="{{ latest_jahon_post_uz.image.url }}" alt="{{ latest_jahon_post_uz.title_uz }}" width="120" height="100">
+                                {% endif %}
+                            </div>
+                            <div class="trand-right-cap">
+                                <span class="color2">
+                                    {% if language_code == 'uz' %}
+                                        {{ latest_jahon_post_uz.category.name_uz }}
+                                    {% elif language_code == 'en' %}
+                                        {{ latest_jahon_post_en.category.name_en }}
+                                    {% elif language_code == 'ru' %}
+                                        {{ latest_jahon_post_ru.category.name_ru }}
+                                    {% else %}
+                                        {{ latest_jahon_post_uz.category.name_uz }}  <!-- Default to Uzbek -->
+                                    {% endif %}
+                                </span>
+                                <h4>
+                                    <a href="{% url 'post_detail' latest_jahon_post_uz.slug %}">
+                                        {% if language_code == 'uz' %}
+                                            {{ latest_jahon_post_uz.title_uz }}
+                                        {% elif language_code == 'en' %}
+                                            {{ latest_jahon_post_en.title_en }}
+                                        {% elif language_code == 'ru' %}
+                                            {{ latest_jahon_post_ru.title_ru }}
+                                        {% else %}
+                                            {{ latest_jahon_post_uz.title_uz }}  <!-- Default to Uzbek -->
+                                        {% endif %}
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Fantexnika Post -->
+                        <div class="trand-right-single d-flex">
+                            <div class="trand-right-img">
+                                {% if latest_fantexnika_post_uz.image %}
+                                    <img src="{{ latest_fantexnika_post_uz.image.url }}" alt="{{ latest_fantexnika_post_uz.title_uz }}" width="120" height="100">
+                                {% endif %}
+                            </div>
+                            <div class="trand-right-cap">
+                                <span class="color4">
+                                    {% if language_code == 'uz' %}
+                                        {{ latest_fantexnika_post_uz.category.name_uz }}
+                                    {% elif language_code == 'en' %}
+                                        {{ latest_fantexnika_post_en.category.name_en }}
+                                    {% elif language_code == 'ru' %}
+                                        {{ latest_fantexnika_post_ru.category.name_ru }}
+                                    {% else %}
+                                        {{ latest_fantexnika_post_uz.category.name_uz }}  <!-- Default to Uzbek -->
+                                    {% endif %}
+                                </span>
+                                <h4>
+                                    <a href="{% url 'post_detail' latest_fantexnika_post_uz.slug %}">
+                                        {% if language_code == 'uz' %}
+                                            {{ latest_fantexnika_post_uz.title_uz }}
+                                        {% elif language_code == 'en' %}
+                                            {{ latest_fantexnika_post_en.title_en }}
+                                        {% elif language_code == 'ru' %}
+                                            {{ latest_fantexnika_post_ru.title_ru }}
+                                        {% else %}
+                                            {{ latest_fantexnika_post_uz.title_uz }}  <!-- Default to Uzbek -->
+                                        {% endif %}
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+
+                        <!-- Madaniyat Post -->
+                        <div class="trand-right-single d-flex">
+                            <div class="trand-right-img">
+                                {% if latest_madaniyat_post_uz.image %}
+                                    <img src="{{ latest_madaniyat_post_uz.image.url }}" alt="{{ latest_madaniyat_post_uz.title_uz }}" width="120" height="100">
+                                {% endif %}
+                            </div>
+                            <div class="trand-right-cap">
+                                <span class="color1">
+                                    {% if language_code == 'uz' %}
+                                        {{ latest_madaniyat_post_uz.category.name_uz }}
+                                    {% elif language_code == 'en' %}
+                                        {{ latest_madaniyat_post_en.category.name_en }}
+                                    {% elif language_code == 'ru' %}
+                                        {{ latest_madaniyat_post_ru.category.name_ru }}
+                                    {% else %}
+                                        {{ latest_madaniyat_post_uz.category.name_uz }}  <!-- Default to Uzbek -->
+                                    {% endif %}
+                                </span>
+                                <h4>
+                                    <a href="{% url 'post_detail' latest_madaniyat_post_uz.slug %}">
+                                        {% if language_code == 'uz' %}
+                                            {{ latest_madaniyat_post_uz.title_uz }}
+                                        {% elif language_code == 'en' %}
+                                            {{ latest_madaniyat_post_en.title_en }}
+                                        {% elif language_code == 'ru' %}
+                                            {{ latest_madaniyat_post_ru.title_ru }}
+                                        {% else %}
+                                            {{ latest_madaniyat_post_uz.title_uz }}  <!-- Default to Uzbek -->
+                                        {% endif %}
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Trending Area End -->
+    <!--   Weekly-News start -->
+ <!-- Weekly-News start -->
+<div class="weekly-news-area pt-50">
+    <div class="container">
+        <div class="weekly-wrapper">
+            <!-- section Title -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle mb-30">
+                        <h3>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                                Jamiyat
+                            {% elif request.LANGUAGE_CODE == 'en' %}
+                                Society
+                            {% elif request.LANGUAGE_CODE == 'ru' %}
+                                Общество
+                            {% endif %}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="weekly-news-active dot-style d-flex">
+                        {% if request.LANGUAGE_CODE == 'uz' %}
+                            {% for jamiyat_post in jamiyat_posts_uz %}
+                                <div class="weekly-single {% if forloop.first %}active{% endif %}">
+                                    <div class="weekly-img">
+                                        {% if jamiyat_post.image %}
+                                            <img src="{{ jamiyat_post.image.url }}" alt="{{ jamiyat_post.title_uz }}" width="360" height="420">
+                                        {% endif %}
+                                    </div>
+                                    <div class="weekly-caption">
+                                        <span class="color1">{{ jamiyat_post.category.name_uz }}</span>
+                                        <h4>
+                                            <a href="{% url 'post_detail' jamiyat_post.slug %}">{{ jamiyat_post.title_uz }}</a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% elif request.LANGUAGE_CODE == 'en' %}
+                            {% for jamiyat_post in jamiyat_posts_en %}
+                                <div class="weekly-single {% if forloop.first %}active{% endif %}">
+                                    <div class="weekly-img">
+                                        {% if jamiyat_post.image %}
+                                            <img src="{{ jamiyat_post.image.url }}" alt="{{ jamiyat_post.title_en }}" width="360" height="420">
+                                        {% endif %}
+                                    </div>
+                                    <div class="weekly-caption">
+                                        <span class="color1">{{ jamiyat_post.category.name_en }}</span>
+                                        <h4>
+                                            <a href="{% url 'post_detail' jamiyat_post.slug %}">{{ jamiyat_post.title_en }}</a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% elif request.LANGUAGE_CODE == 'ru' %}
+                            {% for jamiyat_post in jamiyat_posts_ru %}
+                                <div class="weekly-single {% if forloop.first %}active{% endif %}">
+                                    <div class="weekly-img">
+                                        {% if jamiyat_post.image %}
+                                            <img src="{{ jamiyat_post.image.url }}" alt="{{ jamiyat_post.title_ru }}" width="360" height="420">
+                                        {% endif %}
+                                    </div>
+                                    <div class="weekly-caption">
+                                        <span class="color1">{{ jamiyat_post.category.name_ru }}</span>
+                                        <h4>
+                                            <a href="{% url 'post_detail' jamiyat_post.slug %}">{{ jamiyat_post.title_ru }}</a>
+                                        </h4>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Weekly-News -->
+
+    <!-- End Weekly-News -->
+   <!-- Whats New Start -->
+
+    <!-- Whats New End -->
+    <!--   Weekly2-News start -->
+    <div class="weekly2-news-area  weekly2-pading gray-bg">
+        <div class="container">
+            <div class="weekly2-wrapper">
+                <!-- section Tittle -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle mb-30">
+                            <h3>
+                                {% if request.LANGUAGE_CODE == 'uz' %}
+                                    Haftalik Top Xabarlar
+                                {% elif request.LANGUAGE_CODE == 'en' %}
+                                    Weekly Top News
+                                {% elif request.LANGUAGE_CODE == 'ru' %}
+                                    Топ Новости Недели
+                                {% endif %}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% if request.LANGUAGE_CODE == 'uz' %}
+                        {% for haftalik_post in weekly_top_posts_uz %}
+                        <div class="col-lg-4 col-md-6">
+                            <div class="weekly2-single">
+                                <div class="weekly2-img">
+                                    {% if haftalik_post.image %}
+                                        <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_uz }}" width="360" height="280">
+                                    {% endif %}
+                                </div>
+
+                                <div class="weekly2-caption">
+                                    <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_uz }}</a></h4>
+                                    <span>{{ haftalik_post.category.name_uz }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% elif request.LANGUAGE_CODE == 'en' %}
+                        {% for haftalik_post in weekly_top_posts_en %}
+                            <div class="col-lg-4 col-md-6">
+                                <div class="weekly2-single">
+                                    <div class="weekly2-img">
+                                        {% if haftalik_post.image %}
+                                            <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_en }}" width="360" height="280">
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="weekly2-caption">
+                                        <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_en }}</a></h4>
+                                        <span>{{ haftalik_post.category.name_en }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                    {% elif request.LANGUAGE_CODE == 'ru' %}
+                        {% for haftalik_post in weekly_top_posts_ru %}
+                        <div class="col-lg-4 col-md-6">
+                            <div class="weekly2-single">
+                                <div class="weekly2-img">
+                                    {% if haftalik_post.image %}
+                                        <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_ru }}" width="360" height="280">
+                                    {% endif %}
+                                </div>
+
+                                <div class="weekly2-caption">
+                                    <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_ru }}</a></h4>
+                                    <span>{{ haftalik_post.category.name_ru }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Weekly-News -->
+
+
+
+
+        <!-- Start Youtube -->
+<div class="youtube-area video-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="video-items-active">
+                    {% for video_post in video_posts %}
+                    <div class="video-items text-center">
+                        <iframe src="{{ video_post.embed_url }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="video-info">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="video-caption">
+                        {% if video_posts %}
+                        <div class="top-caption">
+                            <span class="color1">{{ video_posts.0.category_name }}</span>
+                        </div>
+                        <div class="bottom-caption">
+                            <h2>{{ video_posts.0.title }}</h2>
+                            <p>{{ video_posts.0.content }}</p>
+                        </div>
+                        {% else %}
+                        <p>Videolar mavjud emas.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testmonial-nav text-center">
+                        {% for video_post in video_posts %}
+                        <div class="single-video">
+                            <iframe src="{{ video_post.embed_url }}" frameborder="0" allowfullscreen></iframe>
+                            <div class="video-intro">
+                                <h4>{{ video_post.title }}</h4>
+                                <p>{{ video_post.category_name }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Youtube -->
+
+
+    </main>
+
+{% endblock %}

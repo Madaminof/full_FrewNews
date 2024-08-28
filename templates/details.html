@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+
+<main>
+    <!-- Trending Area Start -->
+    <div class="trending-area fix">
+        <div class="container">
+            <div class="trending-main">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="post-title">
+                            <h3>{{ title }}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <!-- Post Detail Section -->
+                        <div class="post-detail mb-30">
+                            <div class="post-detail-img">
+                                <!-- Display image if available -->
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" alt="{{ title }}" width="100%">
+                                {% endif %}
+
+                                <!-- Display video if available, but only if image is not present -->
+                                {% if post.video_url and not post.image %}
+                                    <video width="100%" controls>
+                                        <source src="{{ post.video_url }}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                {% endif %}
+
+                                <!-- Display YouTube video if available, but only if neither image nor video are present -->
+                                {% if not post.image and not post.video_url %}
+                                    {% for youtube_video in youtube_videos %}
+                                        <div class="youtube-video">
+                                            <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{ youtube_video.youtube_url|slice:'32:' }}" frameborder="0" allowfullscreen></iframe>
+                                            <h4>{{ youtube_video.title }}</h4>
+                                            <p>{{ youtube_video.content }}</p>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <!-- Display caption and post details -->
+                                <div class="post-detail-cap">
+                                    <p>{{ content }}</p>
+                                    <p><strong>{{ category_name }}</strong> {{ post.created_ad|date:"F d H:i" }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Related Posts Section -->
+                        <div class="related-posts">
+                            <!-- Related posts code -->
+                        </div>
+                    </div>
+
+                    <!-- Right Sidebar: Latest Posts -->
+                    <!-- Right Sidebar: Related Posts -->
+                    <div class="col-lg-4">
+                        <h4>O'xshash Yangiliklar</h4>
+                        {% for related_post in related_posts %}
+                        <div class="trand-right-single d-flex">
+                            <div class="trand-right-img">
+                                {% if related_post.image %}
+                                    <img src="{{ related_post.image.url }}" alt="{{ related_post.title_uz }}" width="120" height="100">
+                                {% endif %}
+                            </div>
+
+                            <div class="trand-right-cap">
+                                <h4>
+                                    <a href="{% url 'post_detail' related_post.slug %}">{{ related_post.title_uz }}</a>
+                                </h4>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Trending Area End -->
+</main>
+
+{% endblock %}
