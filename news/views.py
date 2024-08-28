@@ -211,16 +211,22 @@ def post_detail(request, slug):
     return render(request, 'details.html', context=context)
 
 
-
+from django.db.models import Q
 
 def search(request):
     query = request.GET.get('q')
     results = []
     if query:
         results = Post.objects.filter(
-            Q(title__icontains=query) | Q(content__icontains=query)
+            Q(title_uz__icontains=query) |
+            Q(title_ru__icontains=query) |
+            Q(title_en__icontains=query) |
+            Q(content_uz__icontains=query) |
+            Q(content_ru__icontains=query) |
+            Q(content_en__icontains=query)
         )
     return render(request, 'search_results.html', {'results': results, 'query': query})
+
 
 
 def get_currency_rates():
