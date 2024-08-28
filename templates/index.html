@@ -13,8 +13,11 @@
 {% endblock %}
 
 {% block content %}
+<style>
 
+</style>
     <main>
+
     <!-- Trending Area Start -->
     <div class="trending-area fix">
         <div class="container">
@@ -409,142 +412,139 @@
 </div>
 <!-- End Weekly-News -->
 
-    <!-- End Weekly-News -->
-   <!-- Whats New Start -->
-
-    <!-- Whats New End -->
-    <!--   Weekly2-News start -->
-    <div class="weekly2-news-area  weekly2-pading gray-bg">
-        <div class="container">
-            <div class="weekly2-wrapper">
-                <!-- section Tittle -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-tittle mb-30">
-                            <h3>
-                                {% if request.LANGUAGE_CODE == 'uz' %}
-                                    Haftalik Top Xabarlar
-                                {% elif request.LANGUAGE_CODE == 'en' %}
-                                    Weekly Top News
-                                {% elif request.LANGUAGE_CODE == 'ru' %}
-                                    Топ Новости Недели
-                                {% endif %}
-                            </h3>
-                        </div>
+         <!-- Weekly-News start -->
+<div class="weekly-news-area pt-50">
+    <div class="container">
+        <div class="weekly-wrapper">
+            <!-- section Title -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle mb-30">
+                        <h3>
+                            {% if request.LANGUAGE_CODE == 'uz' %}
+                                Haftalik Top Xabarlar
+                            {% elif request.LANGUAGE_CODE == 'en' %}
+                                Weekly Top Posts
+                            {% elif request.LANGUAGE_CODE == 'ru' %}
+                                Популярные публикации недели
+                            {% endif %}
+                        </h3>
                     </div>
                 </div>
-                <div class="row">
-                    {% if request.LANGUAGE_CODE == 'uz' %}
-                        {% for haftalik_post in weekly_top_posts_uz %}
-                        <div class="col-lg-4 col-md-6">
-                            <div class="weekly2-single">
-                                <div class="weekly2-img">
-                                    {% if haftalik_post.image %}
-                                        <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_uz }}" width="360" height="280">
-                                    {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="weekly-news-active dot-style d-flex">
+                        {% if request.LANGUAGE_CODE == 'uz' %}
+                            {% for haftalik_post in weekly_top_posts_uz %}
+                                <div class="weekly-single {% if forloop.first %}active{% endif %}">
+                                    <div class="weekly-img">
+                                        {% if haftalik_post.image %}
+                                            <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_uz }}" width="360" height="280">
+                                        {% endif %}
+                                    </div>
+                                    <div class="weekly-caption">
+                                       <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_uz }}</a></h4>
+                                        <span>{{ haftalik_post.category.name_uz }}</span>
+                                    </div>
                                 </div>
-
-                                <div class="weekly2-caption">
-                                    <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_uz }}</a></h4>
-                                    <span>{{ haftalik_post.category.name_uz }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% elif request.LANGUAGE_CODE == 'en' %}
+                            {% endfor %}
+                        {% elif request.LANGUAGE_CODE == 'en' %}
                         {% for haftalik_post in weekly_top_posts_en %}
-                            <div class="col-lg-4 col-md-6">
-                                <div class="weekly2-single">
-                                    <div class="weekly2-img">
+                                <div class="weekly-single {% if forloop.first %}active{% endif %}">
+                                    <div class="weekly-img">
                                         {% if haftalik_post.image %}
                                             <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_en }}" width="360" height="280">
                                         {% endif %}
                                     </div>
-
-                                    <div class="weekly2-caption">
-                                        <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_en }}</a></h4>
+                                    <div class="weekly-caption">
+                                       <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_en }}</a></h4>
                                         <span>{{ haftalik_post.category.name_en }}</span>
                                     </div>
                                 </div>
-                            </div>
                             {% endfor %}
-                    {% elif request.LANGUAGE_CODE == 'ru' %}
-                        {% for haftalik_post in weekly_top_posts_ru %}
-                        <div class="col-lg-4 col-md-6">
-                            <div class="weekly2-single">
-                                <div class="weekly2-img">
-                                    {% if haftalik_post.image %}
-                                        <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_ru }}" width="360" height="280">
-                                    {% endif %}
+
+                        {% elif request.LANGUAGE_CODE == 'ru' %}
+                            {% for haftalik_post in weekly_top_posts_ru %}
+                                <div class="weekly-single {% if forloop.first %}active{% endif %}">
+                                    <div class="weekly-img">
+                                        {% if haftalik_post.image %}
+                                            <img src="{{ haftalik_post.image.url }}" alt="{{ haftalik_post.title_ru }}" width="360" height="280">
+                                        {% endif %}
+                                    </div>
+                                    <div class="weekly-caption">
+                                       <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_ru }}</a></h4>
+                                        <span>{{ haftalik_post.category.name_ru }}</span>
+                                    </div>
                                 </div>
-
-                                <div class="weekly2-caption">
-                                    <h4><a href="{% url 'post_detail' haftalik_post.slug %}">{{ haftalik_post.title_ru }}</a></h4>
-                                    <span>{{ haftalik_post.category.name_ru }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Weekly-News -->
-
-
-
-
-        <!-- Start Youtube -->
-<div class="youtube-area video-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="video-items-active">
-                    {% for video_post in video_posts %}
-                    <div class="video-items text-center">
-                        <iframe src="{{ video_post.embed_url }}" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <div class="video-info">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="video-caption">
-                        {% if video_posts %}
-                        <div class="top-caption">
-                            <span class="color1">{{ video_posts.0.category_name }}</span>
-                        </div>
-                        <div class="bottom-caption">
-                            <h2>{{ video_posts.0.title }}</h2>
-                            <p>{{ video_posts.0.content }}</p>
-                        </div>
-                        {% else %}
-                        <p>Videolar mavjud emas.</p>
+                            {% endfor %}
                         {% endif %}
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="testmonial-nav text-center">
-                        {% for video_post in video_posts %}
-                        <div class="single-video">
-                            <iframe src="{{ video_post.embed_url }}" frameborder="0" allowfullscreen></iframe>
-                            <div class="video-intro">
-                                <h4>{{ video_post.title }}</h4>
-                                <p>{{ video_post.category_name }}</p>
-                            </div>
-                        </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- End Youtube -->
+<!-- End Weekly-News -->
 
+
+
+
+
+
+    <!-- Start Youtube -->
+
+    <div class="youtube-area video-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="video-items-active">
+                        {% for video_post in video_posts %}
+                        <div class="video-items text-center">
+                            <iframe src="{{ video_post.embed_url }}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="video-info">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="video-caption">
+                            {% if video_posts %}
+                            <div class="top-caption">
+                                <span class="color1">{{ video_posts.first.category.name }}</span>
+                            </div>
+                            <div class="bottom-caption">
+                                <h2>{{ video_posts.first.title }}</h2>
+                                <p>{{ video_posts.first.content }}</p>
+                            </div>
+                            {% else %}
+                            <p>No videos available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="testmonial-nav text-center">
+                            {% for video_post in video_posts %}
+                            <div class="single-video">
+                                <iframe src="{{ video_post.embed_url }}" frameborder="0" allowfullscreen></iframe>
+                                <div class="video-intro">
+                                    <h4>{{ video_post.title }}</h4>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- End Start youtube -->
 
     </main>
 

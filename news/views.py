@@ -278,39 +278,13 @@ def base_view(request):
 
     return render(request, 'base.html', {'weather': weather, 'cities': cities, 'selected_city': selected_city})
 
+from django.shortcuts import render
+from .models import YoutubeVideo
+import json
 
-
-
-def video_posts_view(request):
-    # Tanlangan tilni aniqlaymiz
-    language = get_language()
-
-    # Video postlarni olish
-    video_posts = YoutubeVideo.objects.filter(youtube_url__isnull=False).order_by('-created_ad')
-
-    # Tilga qarab video postlarni sozlash
-    if language == 'uz':
-        video_posts = video_posts.annotate(
-            title=F('title_uz'),
-            content=F('content_uz'),
-            category_name=F('category__name_uz')
-        )
-    elif language == 'ru':
-        video_posts = video_posts.annotate(
-            title=F('title_ru'),
-            content=F('content_ru'),
-            category_name=F('category__name_ru')
-        )
-    else:  # Default yoki 'en'
-        video_posts = video_posts.annotate(
-            title=F('title_en'),
-            content=F('content_en'),
-            category_name=F('category__name_en')
-        )
-
-    context = {
-        'video_posts': video_posts,
-    }
-    return render(request, 'index.html', context)
-
-
+def youtube_video_list(request):
+    youtube_videos = YoutubeVideo.objects.all().values(
+        'title_uz', 'content_uz', 'youtube_url', 'category__name_uz'
+    )
+    video_posts_json = json.dumps(list(youtube_videos))  # JSON formatiga o'tkazish
+    return render(request, 'index.html', {'video_posts': video_posts_json})

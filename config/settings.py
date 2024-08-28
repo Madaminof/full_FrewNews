@@ -94,12 +94,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGES = [
-    ('en', 'English'),
-    ('ru', 'Russian'),
-    ('uz', 'Uzbek'),
+    ('uz', 'uz'),  # Default til
+    ('ru', 'ru'),
+    ('en', 'en'),
 ]
+LANGUAGE_CODE = 'uz'  # Default til o'zbekcha
+
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),

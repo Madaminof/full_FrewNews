@@ -132,7 +132,7 @@
             </div>
 
 
-        <div class="language-bar">
+<div class="language-bar">
     <form action="{% url 'set_language' %}" method="post" id="languageForm">
         {% csrf_token %}
         <input name="next" type="hidden" value="{{ redirect_to }}">
@@ -143,13 +143,20 @@
             {% for language in languages %}
                 {% if language.code in 'uz ru en' %}
                     <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-                        {{ language.name_local }}
+                        {% if language.code == 'uz' %}
+                            uz
+                        {% elif language.code == 'ru' %}
+                            ru
+                        {% elif language.code == 'en' %}
+                            en
+                        {% endif %}
                     </option>
                 {% endif %}
             {% endfor %}
         </select>
     </form>
 </div>
+
 
 
 
