@@ -1,13 +1,10 @@
-
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.db.models import Q
 import requests
 from django.db.models import F
-
-
-
-
+from .models import YoutubeVideo
+import json
 from django.utils import timezone
 from datetime import timedelta
 from .models import Post, YoutubeVideo, Categories
@@ -86,6 +83,7 @@ def main(request):
         'categories': categories,
         'latest_posts': latest_posts,
         'latest_post_with_image': latest_post_with_image,
+        'latest_posts_list':latest_posts_list,
 
         'latest_sport_post_uz': latest_sport_post_uz,
         'latest_jamiyat_post_uz': latest_jamiyat_post_uz,
@@ -231,7 +229,7 @@ def search(request):
 
 def get_currency_rates():
     # Fetching the latest exchange rates from a public API
-    url = "https://v6.exchangerate-api.com/v6/683779a2b99f8e23dde934aa/latest/USD"
+    url = "https://v6.exchangerate-api.com/v6/922ab46cc16563b556e70cdb/latest/USD"
     response = requests.get(url)
     data = response.json()
 
@@ -284,9 +282,7 @@ def base_view(request):
 
     return render(request, 'base.html', {'weather': weather, 'cities': cities, 'selected_city': selected_city})
 
-from django.shortcuts import render
-from .models import YoutubeVideo
-import json
+
 
 def youtube_video_list(request):
     youtube_videos = YoutubeVideo.objects.all().values(

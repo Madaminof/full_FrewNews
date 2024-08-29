@@ -36,7 +36,7 @@
                             </strong>
                             <div class="trending-animated">
                                <ul id="js-news" class="js-hidden">
-                                    {% for post in latest_posts %}
+                                    {% for post in latest_posts_list %}
                                         {% if post %}
                                             <li class="news-item">
                                                 {% if LANGUAGE_CODE == 'uz' %}
@@ -486,6 +486,7 @@
     </div>
 </div>
 <!-- End Weekly-News -->
+{# Sport News#}
 
 
 
@@ -541,6 +542,82 @@
         </div>
     </div>
 
+
+{#    Sport News#}
+ <div class="recent-articles">
+        <div class="container">
+           <div class="recent-wrapper">
+                <!-- section Tittle -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-tittle mb-30">
+                            <h3>
+                                {% if request.LANGUAGE_CODE == 'uz' %}
+                                    Sport
+                                {% elif request.LANGUAGE_CODE == 'en' %}
+                                    Sports
+                                {% elif request.LANGUAGE_CODE == 'ru' %}
+                                    Спорт
+                                {% endif %}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="recent-active dot-style d-flex dot-style">
+                        {% if request.LANGUAGE_CODE == 'uz' %}
+                            {% for sport_post in sport_posts_uz %}
+                            <div class="single-recent mb-100">
+                                <div class="what-img">
+                                    {% if sport_post.image %}
+                                        <img src="{{ sport_post.image.url }}" alt="{{ sport_post.title }}">
+                                    {% endif %}
+                                </div>
+                                <div class="what-cap">
+                                    <span class="color1">{{ sport_post.category.name_uz }}</span>
+                                    <h4><a href="{% url 'post_detail' sport_post.slug %}">{{ sport_post.title_uz }}</a></h4>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if request.LANGUAGE_CODE == 'ru' %}
+                            {% for sport_post in sport_posts_ru %}
+                            <div class="single-recent mb-100">
+                                <div class="what-img">
+                                    {% if sport_post.image %}
+                                        <img src="{{ sport_post.image.url }}" alt="{{ sport_post.title }}">
+                                    {% endif %}
+                                </div>
+                                <div class="what-cap">
+                                    <span class="color1">{{ sport_post.category.name_ru }}</span>
+                                    <h4><a href="{% url 'post_detail' sport_post.slug %}">{{ sport_post.title_ru }}</a></h4>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        {% if request.LANGUAGE_CODE == 'en' %}
+                            {% for sport_post in sport_posts_en %}
+                            <div class="single-recent mb-100">
+                                <div class="what-img">
+                                    {% if sport_post.image %}
+                                        <img src="{{ sport_post.image.url }}" alt="{{ sport_post.title }}">
+                                    {% endif %}
+                                </div>
+                                <div class="what-cap">
+                                    <span class="color1">{{ sport_post.category.name_en }}</span>
+                                    <h4><a href="{% url 'post_detail' sport_post.slug %}">{{ sport_post.title_en }}</a></h4>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </div>
+    </div>
 
 
 
