@@ -1,7 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.urls import path
 
-from . import translation
 from .views import main, post_detail, post_by_categories, search, youtube_video_list
 from django.utils.translation import activate
 

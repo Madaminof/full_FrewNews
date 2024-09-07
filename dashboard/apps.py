@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class FreshnewsAdminConfig(AppConfig):
+class DashboardConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'freshnews_admin'
+    name = 'dashboard'

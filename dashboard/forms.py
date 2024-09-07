@@ -1,26 +1,27 @@
-from django import forms
 from news.models import Post, Advertisement, YoutubeVideo
+from django import forms
+from .models import Profile
+
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content', 'slug', 'category', 'image', 'video']
+        fields = ['title_uz','title_en', 'title_ru', 'content_uz', 'content_en', 'content_ru', 'slug', 'category', 'image', 'video']
+
 
 class YoutubeVideoForm(forms.ModelForm):
     class Meta:
         model = YoutubeVideo
-        fields = ['title', 'category', 'content', 'youtube_url', 'slug']
+        fields = ['title_uz','title_en', 'title_ru', 'content_uz', 'content_en', 'content_ru', 'youtube_url', 'slug']
+
 
 class AdvertisementForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ['title', 'image', 'url', 'is_active']
+        fields = ['title_uz','title_en', 'title_ru', 'image', 'url', 'is_active']
 
 
-
-#profile
-from django import forms
-from .models import Profile
+# profile
 
 class ProfileForm(forms.ModelForm):
     class Meta:

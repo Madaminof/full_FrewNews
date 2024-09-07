@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
-from django.utils.translation import gettext_lazy as _
-
+from django.utils.translation import gettext_lazy as _  # type: ignore
 
 # Bazaviy fayl yo'lini olish
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,8 +23,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cuser',
+    'dashboard',
     'news',
     'whitenoise.runserver_nostatic',
+
 ]
 
 # O'rta qatlamlar (Middlewares)
@@ -40,6 +41,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cuser.middleware.CuserMiddleware',
+    'news.middleware.Custom404Middleware',
+    'dashboard.middleware.Custom404Middleware'
 
 ]
 
@@ -101,7 +104,6 @@ LANGUAGES = [
 ]
 LANGUAGE_CODE = 'uz'  # Default til o'zbekcha
 
-
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
@@ -118,7 +120,8 @@ MEDIA_ROOT = BASE_DIR.joinpath('media')
 # Default asosiy kalit turi
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 TRANSLATABLE_MODEL_MODULES = (
     'news.models',
 )
+
+LOGIN_URL = 'dashboard/'

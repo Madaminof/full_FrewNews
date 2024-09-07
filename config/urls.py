@@ -6,21 +6,17 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls')),
-
-    #path('adminpanel1/', include('adminpanel.urls')),
-
+    path('dashboard/', include('dashboard.urls')),
 
 ] + i18n_patterns(
     path('i18n/', include('django.conf.urls.i18n')),
-
-
 )
 
 
 
 
 if settings.DEBUG:
-    urlpatterns +=static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -53,7 +53,7 @@
         <ul class="list-group">
             {% for post in posts %}
                 <li class="list-group-item">
-                    <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                    <a href="{% url 'post_detail' post.pk %}">{{ post.title_uz }}</a>
                     <div class="btn-group">
                         <a href="{% url 'post_update' post.pk %}" class="btn btn-warning btn-sm">Edit</a>
                         <a href="{% url 'post_delete' post.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
